@@ -1,0 +1,6 @@
+[submodule "threat-and-sec-front"]
+	path = threat-and-sec-front
+	url = https://github.com/emelyanovkr/threat-and-security-model-front.git
+[submodule "threat-and-sec-back"]
+	path = threat-and-sec-back
+	url = https://github.com/emelyanovkr/threat-and-security-model-back.git
