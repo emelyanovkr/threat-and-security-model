@@ -1,1 +1,1 @@
-# threat-and-security-modell
+# threat-and-security-model
