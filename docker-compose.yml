@@ -1,0 +1,40 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: threat-and-sec-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql/threat-and-sec-db-dump.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+  quarkus-back:
+    build:
+      context: ./threat-and-sec-back
+      dockerfile: docker/Dockerfile
+    container_name: threat-and-sec-back
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+
+  vue-front:
+    build:
+      context: ./threat-and-sec-front
+    container_name: thread-and-sec-front
+    environment:
+      VUE_APP_API_URL: http://quarkus-back:8000
+    ports:
+      - "3000:80"
+    depends_on:
+      - quarkus-back
+
+volumes:
+  postgres_data:
